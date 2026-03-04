@@ -1,17 +1,4 @@
-Perfect! Since you want to **document the entire Jumuia project** from start to finish, I’ll create **beginner-friendly, clear, structured documentation** covering:
 
-* Project overview
-* Goals & use cases
-* System layers
-* Users & roles
-* Database design
-* MVP features per layer
-* Technical stack & folder structure
-* Development roadmap
-
-This will serve as your **master reference** before coding anything.
-
----
 
 # 📝 Jumuia – Full Project Documentation
 
