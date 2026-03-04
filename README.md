@@ -187,8 +187,7 @@ Layer 3: Relief/Disaster (optional, activated when shocks occur)
 ---
 
 ## 8️⃣ Folder Structure (Go Project)
-
-```text id="7uq2jm"
+```
 jumuia/
 │
 ├── cmd/
@@ -198,19 +197,20 @@ jumuia/
 ├── internal/
 │   ├── handlers/      // HTTP handlers
 │   ├── services/      // Business logic
-│   ├── models/        // Database models
+│   ├── models/        // Go structs mapping DB tables
 │   └── repository/    // DB queries
 │
 ├── web/
 │   ├── templates/     // HTML files
-│   └── static/        // CSS / JS
+│   └── static/        // CSS / JS / service worker
 │
-├── migrations/        // SQL migration files
+├── db/
+│   └── jumuia.db      // SQLite file
+├── migrations/        // SQL scripts for creating tables
 ├── go.mod
+├── manifest.json      // PWA config
 └── README.md
 ```
-
----
 
 ## 9️⃣ Development Roadmap
 
