@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VSLA Groups</title>
+</head>
+<body>
+    <h1>All VSLA Groups</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Village</th>
+            <th>District</th>
+        </tr>
+        {{range .}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.Name}}</td>
+            <td>{{.Village}}</td>
+            <td>{{.District}}</td>
+        </tr>
+        {{end}}
+    </table>
+    <br>
+    <a href="/groups/new">Create New Group</a>
+</body>
+</html>

@@ -7,6 +7,16 @@ import (
 	"jumuia/internal/repository"
 	"net/http"
 )
+// Show the form to create a new group
+func NewGroupHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("web/templates/group.html")
+	if err != nil {
+		http.Error(w, "Error loading template", 500)
+		return
+	}
+	tmpl.Execute(w, nil)
+}
+//Handle form submission and save group
 func CreateGroupHandler(db *sql.DB)http.HandlerFunc{
 	return func(w http.ResponseWriter,r *http.Request){
 		if r.Method != http.MethodPost{

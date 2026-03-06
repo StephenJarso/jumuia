@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Group</title>
+</head>
+<body>
+    <h1>Create a VSLA Group</h1>
+    <form action="/groups/create" method="POST">
+        <label>Name: <input type="text" name="name" required></label><br>
+        <label>Village: <input type="text" name="village"></label><br>
+        <label>District: <input type="text" name="district"></label><br>
+        <button type="submit">Create Group</button>
+    </form>
+    <br>
+    <a href="/groups">View all groups</a>
+</body>
+</html>
