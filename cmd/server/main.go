@@ -17,6 +17,9 @@ func main(){
 	http.HandleFunc("/groups/new",handlers.NewGroupHandler)
 	http.HandleFunc("/groups/create",handlers.CreateGroupHandler(db))
 	http.HandleFunc("/groups",handlers.ListGroupsHandler(db))
-	log.Println("Server listening on port :8080")
+	http.HandleFunc("/members/new", handlers.NewMemberHandler)
+http.HandleFunc("/members/create", handlers.CreateMemberHandler(db))
+http.HandleFunc("/members", handlers.ListMembersHandler(db))
+	log.Println("Server listening on port http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080",nil))
 }

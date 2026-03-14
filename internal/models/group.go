@@ -5,5 +5,5 @@ type Group struct{
 	Name string `json:"name"`
 	Village string `json:"village"`
 	District string `json:"district"`
-	CreatedAt string `json:"createdAt"`
+	// CreatedAt string `json:"createdAt"`
 }

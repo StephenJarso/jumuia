@@ -21,7 +21,9 @@ func CreateGroup(db *sql.DB, group models.Group) (int64, error) {
 	return resp.LastInsertId()
 }
 
-//GetAllGroups fetches all groups from the database
+//GetAllGroups fetc// http.HandleFunc("/",func(w http.ResponseWriter,r *http.Request){
+	// 	fmt.Println(w,"Welcome to jumuia")
+	// })hes all groups from the database
 
 func GetAllGroups(db *sql.DB)([]models.Group,error){
 	rows,err:=db.Query("SELECT id,name,village, district FROM groups")
