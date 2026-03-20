@@ -22,23 +22,23 @@ func CreateGroup(db *sql.DB, group models.Group) (int64, error) {
 }
 
 //GetAllGroups fetc// http.HandleFunc("/",func(w http.ResponseWriter,r *http.Request){
-	// 	fmt.Println(w,"Welcome to jumuia")
-	// })hes all groups from the database
+// 	fmt.Println(w,"Welcome to jumuia")
+// })hes all groups from the database
 
-func GetAllGroups(db *sql.DB)([]models.Group,error){
-	rows,err:=db.Query("SELECT id,name,village, district FROM groups")
-	if err!=nil{
+func GetAllGroups(db *sql.DB) ([]models.Group, error) {
+	rows, err := db.Query("SELECT id,name,village, district FROM groups")
+	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	var groups []models.Group
-	for rows.Next(){
+	for rows.Next() {
 		var g models.Group
-		err := rows.Scan(&g.ID,&g.Name,&g.Village,&g.District)
-		if err != nil{
-			return nil,err
+		err := rows.Scan(&g.ID, &g.Name, &g.Village, &g.District)
+		if err != nil {
+			return nil, err
 		}
-		groups = append(groups,g)
+		groups = append(groups, g)
 	}
-return groups, nil
+	return groups, nil
 }

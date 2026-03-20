@@ -35,7 +35,7 @@ func CreateMemberHandler(db *sql.DB) http.HandlerFunc {
 		groupID, _ := strconv.Atoi(groupIDStr)
 
 		member := models.Member{
-			GroupId:groupID,
+			GroupId: groupID,
 			Name:    r.FormValue("name"),
 			Phone:   r.FormValue("phone"),
 			Role:    r.FormValue("role"),

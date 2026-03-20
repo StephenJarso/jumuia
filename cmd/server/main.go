@@ -1,25 +1,25 @@
 package main
 
 import (
-	_"fmt"
+	_ "fmt"
 	"jumuia/internal/db"
 	"jumuia/internal/handlers"
 	"log"
 	"net/http"
 )
 
-func main(){
+func main() {
 	db := db.InitDB()
 	defer db.Close()
 	// http.HandleFunc("/",func(w http.ResponseWriter,r *http.Request){
 	// 	fmt.Println(w,"Welcome to jumuia")
 	// })
-	http.HandleFunc("/groups/new",handlers.NewGroupHandler)
-	http.HandleFunc("/groups/create",handlers.CreateGroupHandler(db))
-	http.HandleFunc("/groups",handlers.ListGroupsHandler(db))
+	http.HandleFunc("/groups/new", handlers.NewGroupHandler)
+	http.HandleFunc("/groups/create", handlers.CreateGroupHandler(db))
+	http.HandleFunc("/groups", handlers.ListGroupsHandler(db))
 	http.HandleFunc("/members/new", handlers.NewMemberHandler)
-http.HandleFunc("/members/create", handlers.CreateMemberHandler(db))
-http.HandleFunc("/members", handlers.ListMembersHandler(db))
+	http.HandleFunc("/members/create", handlers.CreateMemberHandler(db))
+	http.HandleFunc("/members", handlers.ListMembersHandler(db))
 	log.Println("Server listening on port http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080",nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
