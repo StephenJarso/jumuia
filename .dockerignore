@@ -1,0 +1,38 @@
+# Binaries
+jumuia
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of go coverage
+*.out
+
+# Database files
+*.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+archicture.md
+
+# Docker
+Dockerfile
+.dockerignore

@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"database/sql"
+	"encoding/json"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
 
+	"jumuia/internal/middleware"
 	"jumuia/internal/models"
 	"jumuia/internal/repository"
 )
@@ -21,6 +24,7 @@ var funcMap = template.FuncMap{
 		}
 		return s[:i]
 	},
+	"printf": fmt.Sprintf,
 }
 
 // Show the form to create a new group
@@ -33,9 +37,11 @@ func NewGroupHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		data := struct {
-			Members []models.Member
+			Members   []models.Member
+			CSRFToken string
 		}{
-			Members: members,
+			Members:   members,
+			CSRFToken: middleware.GenerateCSRFToken(),
 		}
 
 		tmpl, err := template.New("group.html").Funcs(funcMap).ParseFiles("web/templates/group.html")
@@ -54,11 +60,36 @@ func CreateGroupHandler(db *sql.DB) http.HandlerFunc {
 			http.Redirect(w, r, "/groups/new", http.StatusSeeOther)
 			return
 		}
+
+		// Validate required fields
 		name := r.FormValue("name")
 		village := r.FormValue("village")
 		district := r.FormValue("district")
 		leaderIDStr := r.FormValue("leader_id")
-		leaderID, _ := strconv.Atoi(leaderIDStr)
+
+		name, ok := middleware.ValidateRequired(name, "name")
+		if !ok {
+			middleware.WriteValidationError(w, "Name is required")
+			return
+		}
+
+		village, ok = middleware.ValidateRequired(village, "village")
+		if !ok {
+			middleware.WriteValidationError(w, "Village is required")
+			return
+		}
+
+		district, ok = middleware.ValidateRequired(district, "district")
+		if !ok {
+			middleware.WriteValidationError(w, "District is required")
+			return
+		}
+
+		leaderID, ok := middleware.ValidateInt(leaderIDStr, "leader_id")
+		if !ok {
+			middleware.WriteValidationError(w, "Invalid leader ID")
+			return
+		}
 
 		group := models.Group{
 			Name:     name,
@@ -122,14 +153,62 @@ func GroupDetailHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		savings, err := repository.GetGroupSavings(db, groupID)
+		if err != nil {
+			http.Error(w, "Error loading savings", 500)
+			return
+		}
+
+		relief, err := repository.GetGroupRelief(db, groupID)
+		if err != nil {
+			http.Error(w, "Error loading relief", 500)
+			return
+		}
+
+		loans, err := repository.GetGroupLoans(db, groupID)
+		if err != nil {
+			http.Error(w, "Error loading loans", 500)
+			return
+		}
+
+		savingsByMember, err := repository.GetGroupSavingsByMember(db, groupID)
+		if err != nil {
+			http.Error(w, "Error loading savings by member", 500)
+			return
+		}
+
+		loansByStatus, err := repository.GetGroupLoansByStatus(db, groupID)
+		if err != nil {
+			http.Error(w, "Error loading loans by status", 500)
+			return
+		}
+
+		// Convert to JSON for charts
+		savingsByMemberJSON, _ := json.Marshal(savingsByMember)
+		loansByStatusJSON, _ := json.Marshal(loansByStatus)
+
 		data := struct {
-			Group   *models.GroupWithLeader
-			Members []models.Member
-			Stats   map[string]interface{}
+			Group               *models.GroupWithLeader
+			Members             []models.Member
+			Stats               map[string]interface{}
+			Savings             []map[string]interface{}
+			Relief              []map[string]interface{}
+			Loans               []map[string]interface{}
+			SavingsByMember     []map[string]interface{}
+			LoansByStatus       []map[string]interface{}
+			SavingsByMemberJSON template.JS
+			LoansByStatusJSON   template.JS
 		}{
-			Group:   group,
-			Members: members,
-			Stats:   stats,
+			Group:               group,
+			Members:             members,
+			Stats:               stats,
+			Savings:             savings,
+			Relief:              relief,
+			Loans:               loans,
+			SavingsByMember:     savingsByMember,
+			LoansByStatus:       loansByStatus,
+			SavingsByMemberJSON: template.JS(savingsByMemberJSON),
+			LoansByStatusJSON:   template.JS(loansByStatusJSON),
 		}
 
 		tmpl, err := template.New("group_detail.html").Funcs(funcMap).ParseFiles("web/templates/group_detail.html")

@@ -1,17 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Create Group</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group - Jumuia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            color: white;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #bdc3c7;
+            font-size: 1em;
+        }
+        .form-container {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.2s ease;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .back-link:hover {
+            color: #34495e;
+            text-decoration: underline;
+        }
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+            color: #2c3e50;
+        }
+        .info-box strong {
+            color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Create a VSLA Group</h1>
-    <form action="/groups/create" method="POST">
-        <label>Name: <input type="text" name="name" required></label><br>
-        <label>Village: <input type="text" name="village"></label><br>
-        <label>District: <input type="text" name="district"></label><br>
-        <button type="submit">Create Group</button>
-    </form>
-    <br>
-    <a href="/groups">View all groups</a>
+    <div class="container">
+        <header>
+            <h1>Create VSLA Group</h1>
+            <p class="subtitle">Set up a new savings and loan group</p>
+        </header>
+
+        <div class="form-container">
+            <div class="info-box">
+                <strong>Note:</strong> After creating the group, you can add members and assign a leader from the group detail page.
+            </div>
+
+            <form action="/groups/create" method="POST">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <div class="form-group">
+                    <label for="name">Group Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g., Tumaini VSLA, Upendo Group">
+                </div>
+
+                <div class="form-group">
+                    <label for="village">Village *</label>
+                    <input type="text" id="village" name="village" required placeholder="e.g., Kisumu Village, Busia Town">
+                </div>
+
+                <div class="form-group">
+                    <label for="district">District *</label>
+                    <input type="text" id="district" name="district" required placeholder="e.g., Kisumu Central, Busia County">
+                </div>
+
+                <div class="form-group">
+                    <label for="leader_id">Initial Leader (Optional)</label>
+                    <select id="leader_id" name="leader_id">
+                        <option value="0">Select a leader later</option>
+                        {{range .Members}}
+                        <option value="{{.ID}}">{{.Name}} - {{.Phone}}</option>
+                        {{end}}
+                    </select>
+                </div>
+
+                <button type="submit">Create Group</button>
+            </form>
+
+            <a href="/groups" class="back-link">← Back to Groups</a>
+        </div>
+    </div>
 </body>
 </html>

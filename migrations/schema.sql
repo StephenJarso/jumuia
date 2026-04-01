@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS groups (
     name TEXT NOT NULL,
     village TEXT,
     district TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    leader_id INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (leader_id) REFERENCES members(id)
 );
 
 -- MEMBERS
@@ -13,7 +15,7 @@ CREATE TABLE IF NOT EXISTS members (
     group_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     phone TEXT,
-    role TEXT,
+    role TEXT DEFAULT 'member',
     joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (group_id) REFERENCES groups(id)
 );
@@ -46,7 +48,7 @@ CREATE TABLE IF NOT EXISTS loans (
     member_id INTEGER NOT NULL,
     amount REAL NOT NULL,
     purpose TEXT,
-    status TEXT,
+    status TEXT DEFAULT 'pending',
     issued_date DATE,
     due_date DATE,
     season_id INTEGER,
@@ -82,4 +84,14 @@ CREATE TABLE IF NOT EXISTS relief (
     date_given DATE,
     FOREIGN KEY (member_id) REFERENCES members(id),
     FOREIGN KEY (disaster_id) REFERENCES disasters(id)
+);
+
+-- USERS (for authentication)
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    email TEXT,
+    role TEXT DEFAULT 'user',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

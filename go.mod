@@ -2,4 +2,7 @@ module jumuia
 
 go 1.24.3
 
-require github.com/mattn/go-sqlite3 v1.14.34 // indirect
+require (
+	github.com/mattn/go-sqlite3 v1.14.34
+	golang.org/x/crypto v0.31.0
+)

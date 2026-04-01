@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Disaster - Jumuia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2em;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚠️ Report Disaster</h1>
+        </header>
+
+        <div class="form-container">
+            <form action="/disasters/create" method="POST">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <div class="form-group">
+                    <label for="type">Disaster Type</label>
+                    <select id="type" name="type" required>
+                        <option value="">Select Type</option>
+                        <option value="flood">Flood</option>
+                        <option value="drought">Drought</option>
+                        <option value="fire">Fire</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required placeholder="Describe the disaster..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" required placeholder="e.g., Village Name, District">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <button type="submit">Report Disaster</button>
+            </form>
+
+            <a href="/disasters" class="back-link">← Back to Disasters</a>
+        </div>
+    </div>
+</body>
+</html>

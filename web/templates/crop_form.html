@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Crop - Jumuia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2em;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌱 Add New Crop</h1>
+        </header>
+
+        <div class="form-container">
+            <form action="/crops/create" method="POST">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <div class="form-group">
+                    <label for="name">Crop Name</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g., Maize, Beans, Coffee">
+                </div>
+
+                <button type="submit">Add Crop</button>
+            </form>
+
+            <a href="/crops" class="back-link">← Back to Crops</a>
+        </div>
+    </div>
+</body>
+</html>

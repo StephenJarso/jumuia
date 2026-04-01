@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: jumuia
+    runtime: docker
+    buildCommand: docker build -t jumuia .
+    startCommand: ./jumuia
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: GO_ENV
+        value: production
+    disk:
+      name: jumuia-data
+      mountPath: /app/data
+      sizeGB: 1
+    healthCheckPath: /
+    autoDeploy: true

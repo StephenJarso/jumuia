@@ -1,33 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Members</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members - Jumuia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background: #2c3e50;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 {
+            color: white;
+            font-size: 2em;
+            font-weight: 600;
+        }
+        .add-btn {
+            padding: 12px 25px;
+            background: white;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .add-btn:hover {
+            background: #ecf0f1;
+        }
+        .table-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .role-leader {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        .role-treasurer {
+            color: #f39c12;
+            font-weight: 600;
+        }
+        .role-member {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Group Members</h1>
+            <a href="/members/new" class="add-btn">+ Add Member</a>
+        </header>
 
-<h2>Members</h2>
+        <div class="table-container">
+            {{if .}}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .}}
+                    <tr>
+                        <td>{{.ID}}</td>
+                        <td>{{.Name}}</td>
+                        <td>{{.Phone}}</td>
+                        <td class="role-{{.Role}}">{{.Role}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+            {{else}}
+            <p style="text-align: center; color: #7f8c8d; padding: 40px;">No members found. <a href="/members/new">Add your first member</a></p>
+            {{end}}
+        </div>
 
-<table border="1">
-
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Phone</th>
-<th>Role</th>
-</tr>
-
-{{range .}}
-
-<tr>
-<td>{{.ID}}</td>
-<td>{{.Name}}</td>
-<td>{{.Phone}}</td>
-<td>{{.Role}}</td>
-</tr>
-
-{{end}}
-
-</table>
-
+        <a href="/groups" class="back-link">← Back to Groups</a>
+    </div>
 </body>
 </html>

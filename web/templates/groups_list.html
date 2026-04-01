@@ -1,27 +1,427 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>VSLA Groups</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups - Jumuia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        .add-btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .group-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .group-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .group-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            color: white;
+        }
+        .group-header h2 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .group-location {
+            opacity: 0.95;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .group-body {
+            padding: 25px;
+        }
+        .group-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 18px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecef 100%);
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .leader-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecef 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .leader-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+        .leader-details h3 {
+            color: #2c3e50;
+            font-size: 1.05em;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .leader-details p {
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+        .group-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-secondary:hover {
+            background: #dfe6e9;
+            transform: translateY(-2px);
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .empty-state h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+        .empty-state p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+        .summary-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .summary-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .search-filter {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        .filter-btn {
+            padding: 14px 24px;
+            background: #ecf0f1;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+        .filter-btn:hover {
+            background: #dfe6e9;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>All VSLA Groups</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Village</th>
-            <th>District</th>
-        </tr>
-        {{range .}}
-        <tr>
-            <td>{{.ID}}</td>
-            <td>{{.Name}}</td>
-            <td>{{.Village}}</td>
-            <td>{{.District}}</td>
-        </tr>
+    <div class="container">
+        <header>
+            <h1>🏘️ VSLA Groups</h1>
+            <a href="/groups/new" class="add-btn">➕ Create New Group</a>
+        </header>
+
+        {{if .}}
+        <div class="summary-bar">
+            <div class="summary-item">
+                <div class="summary-value">{{len .}}</div>
+                <div class="summary-label">Total Groups</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">
+                    {{$totalMembers := 0}}
+                    {{range .}}{{$totalMembers = add $totalMembers .MemberCount}}{{end}}
+                    {{$totalMembers}}
+                </div>
+                <div class="summary-label">Total Members</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">
+                    {{$totalLeaders := 0}}
+                    {{range .}}{{if .LeaderName}}{{if ne .LeaderName "No Leader"}}{{$totalLeaders = add $totalLeaders 1}}{{end}}{{end}}{{end}}
+                    {{$totalLeaders}}
+                </div>
+                <div class="summary-label">Active Leaders</div>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" class="search-input" placeholder="🔍 Search groups by name, village, or district..." id="searchInput">
+            <button class="filter-btn active" onclick="filterGroups('all')">All Groups</button>
+            <button class="filter-btn" onclick="filterGroups('with-leader')">With Leader</button>
+            <button class="filter-btn" onclick="filterGroups('no-leader')">No Leader</button>
+        </div>
+
+        <div class="groups-grid" id="groupsGrid">
+            {{range .}}
+            <div class="group-card" data-leader="{{.LeaderName}}">
+                <div class="group-header">
+                    <h2>{{.Name}}</h2>
+                    <div class="group-location">📍 {{.Village}}, {{.District}}</div>
+                </div>
+                <div class="group-body">
+                    <div class="group-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">{{.MemberCount}}</div>
+                            <div class="stat-label">Members</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{.ID}}</div>
+                            <div class="stat-label">Group ID</div>
+                        </div>
+                    </div>
+                    <div class="leader-info">
+                        <div class="leader-avatar">{{slice .LeaderName 0 1}}</div>
+                        <div class="leader-details">
+                            <h3>{{.LeaderName}}</h3>
+                            <p>Group Leader • {{.LeaderPhone}}</p>
+                        </div>
+                    </div>
+                    <div class="group-actions">
+                        <a href="/groups/detail?id={{.ID}}" class="btn btn-primary">👁️ View Details</a>
+                        <a href="/members/new?group_id={{.ID}}" class="btn btn-secondary">➕ Add Member</a>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+        {{else}}
+        <div class="empty-state">
+            <h2>🏘️ No Groups Yet</h2>
+            <p>Create your first VSLA group to get started</p>
+            <a href="/groups/new" class="btn btn-primary" style="display: inline-block; width: auto; padding: 16px 35px;">Create First Group</a>
+        </div>
         {{end}}
-    </table>
-    <br>
-    <a href="/groups/new">Create New Group</a>
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.group-card');
+            
+            cards.forEach(card => {
+                const name = card.querySelector('h2').textContent.toLowerCase();
+                const location = card.querySelector('.group-location').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || location.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        function filterGroups(filter) {
+            const cards = document.querySelectorAll('.group-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                const leader = card.getAttribute('data-leader');
+                
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else if (filter === 'with-leader') {
+                    card.style.display = leader && leader !== 'No Leader' ? 'block' : 'none';
+                } else if (filter === 'no-leader') {
+                    card.style.display = !leader || leader === 'No Leader' ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
