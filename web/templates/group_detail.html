@@ -719,7 +719,7 @@
         }
 
         // Savings Chart - Pie Chart
-        const savingsData = {{.SavingsByMemberJSON}};
+        const savingsData = JSON.parse('{{.SavingsByMemberJSON}}');
         const savingsLabels = savingsData.map(item => item.member_name);
         const savingsAmounts = savingsData.map(item => item.total_savings);
         
@@ -770,7 +770,7 @@
         });
 
         // Loans Chart - Doughnut Chart
-        const loansData = {{.LoansByStatusJSON}};
+        const loansData = JSON.parse('{{.LoansByStatusJSON}}');
         const loansLabels = loansData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
         const loansCounts = loansData.map(item => item.count);
         const loansAmounts = loansData.map(item => item.total_amount);
