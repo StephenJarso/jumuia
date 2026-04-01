@@ -2,12 +2,26 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
 	"jumuia/internal/db"
 	"jumuia/internal/handlers"
 )
+
+// Template functions
+var funcMap = template.FuncMap{
+	"add": func(a, b int) int {
+		return a + b
+	},
+	"slice": func(s string, i int) string {
+		if i >= len(s) {
+			return s
+		}
+		return s[:i]
+	},
+}
 
 func main() {
 	// Initialize database
@@ -23,14 +37,17 @@ func main() {
 	http.HandleFunc("/dashboard", handlers.DashboardHandler(database))
 
 	// Group routes
-	http.HandleFunc("/groups/new", handlers.NewGroupHandler)
+	http.HandleFunc("/groups/new", handlers.NewGroupHandler(database))
 	http.HandleFunc("/groups/create", handlers.CreateGroupHandler(database))
 	http.HandleFunc("/groups", handlers.ListGroupsHandler(database))
+	http.HandleFunc("/groups/detail", handlers.GroupDetailHandler(database))
+	http.HandleFunc("/groups/update-leader", handlers.UpdateGroupLeaderHandler(database))
 
 	// Member routes
 	http.HandleFunc("/members/new", handlers.NewMemberHandler(database))
 	http.HandleFunc("/members/create", handlers.CreateMemberHandler(database))
 	http.HandleFunc("/members", handlers.ListMembersHandler(database))
+	http.HandleFunc("/members/account", handlers.MemberAccountHandler(database))
 
 	// Season routes
 	http.HandleFunc("/seasons/new", handlers.NewSeasonHandler)
