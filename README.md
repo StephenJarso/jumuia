@@ -212,46 +212,4 @@ jumuia/
 └── README.md
 ```
 
-## 9️⃣ Development Roadmap
 
-### Week 1 – Agriculture Layer MVP
-
-* Go server setup
-* Database connection
-* Groups, Members, Seasons
-* Agricultural loans + risk flagging
-
-### Week 2 – Core VSLA Layer
-
-* Add savings
-* Add repayments
-* Simple balances & reports
-
-### Week 3 – Relief Layer
-
-* Add disasters
-* Member disaster status
-* NGO read-only dashboard
-* Export reports
-
-### Week 4 – Frontend & Polish
-
-* Improve HTML/CSS
-* Form validation
-* Optional React migration
-
----
-
-## 10️⃣ Funding & Pitch Notes
-
-**Pitch for funders:**
-
-> “Village savings groups are critical for rural communities. Jumuia digitizes VSLA operations and adds agricultural risk and disaster tracking. It helps leaders manage seasonal loans and allows NGOs to monitor financial vulnerability, enabling faster recovery after shocks.”
-
-* Agriculture = climate risk + loan exposure
-* Relief = disaster preparedness + targeted assistance
-* Core VSLA = transparency + trust
-
-This makes it **fundable, real-world, and scalable**.
-
----
